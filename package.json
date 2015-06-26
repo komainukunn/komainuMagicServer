@@ -13,8 +13,8 @@
     "node": "0.10.x",
     "npm": "1.4.x"
   },
-  "devDependencies": {
+  "dependencies": {
     "express": ">=4.1.x",
-    "fs" : "*"
+    "fs":"*"
   }
 }
