@@ -2,6 +2,8 @@ var app = require('express')();
 var http = require('http').Server(app);
 var fs = require("fs");
 
+app.set('port', (process.env.PORT || 5000));
+
 app.get('/styles/main.css', function(req, res){
       fs.readFile(
         './styles/main.css',
@@ -95,6 +97,6 @@ app.get('/', function(req, res){
     );
 });
 
-http.listen(3000, function(){
-  console.log('listening on http//localhost:3000');
+app.listen(app.get('port'), function() {
+  console.log("Node app is running at localhost:" + app.get('port'));
 });
