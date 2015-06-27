@@ -4,7 +4,11 @@ var fs = require("fs");
 
 app.set("port", (process.env.PORT || 5000));
 
+/*
+ * ルーティング
+ */
 
+//ヘッターの画像ルーティング
 app.get("/images/header_back_image_b.jpg", function(req, res){
       fs.readFile(
         "./images/header_back_image_b.jpg",
@@ -23,7 +27,7 @@ app.get("/images/header_back_image_b.jpg", function(req, res){
     );
 });
 
-
+//cssのルーティング
 app.get("/styles/main.css", function(req, res){
       fs.readFile(
         "./styles/main.css",
@@ -42,26 +46,7 @@ app.get("/styles/main.css", function(req, res){
     );
 });
 
-
-app.get("bower_components/jquery/dist/jquery.js", function(req, res){
-      fs.readFile(
-        "./bower_components/jquery/dist/jquery.js",
-        function (err, data) {
-            if (err) {
-                // とりあえずconsole.logでログを残す
-                // エラーが出たらnodeは死ぬのでendする
-                console.log(err);
-                res.writeHead(500);
-                res.end("Server error : " + err);
-            }
-            // HTTPレスポンスヘッダを作成・送信(200:OK,500:ServerError,404:NotFound)
-            res.writeHead(200, {"Content-Type": "text/javascript; charset=UTF-8"});
-            res.end(data);
-        }
-    );
-});
-
-
+//jsのルーティング
 app.get("/scripts/app.js", function(req, res){
       fs.readFile(
         "./scripts/app.js",
@@ -80,6 +65,7 @@ app.get("/scripts/app.js", function(req, res){
     );
 });
 
+//venderのルーティング
 app.get("/scripts/vendor.js", function(req, res){
       fs.readFile(
         "./scripts/vendor.js",
@@ -98,7 +84,7 @@ app.get("/scripts/vendor.js", function(req, res){
     );
 });
 
-
+//indexのルーティング
 app.get("/", function(req, res){
       fs.readFile(
         "./index.html",
