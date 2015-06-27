@@ -4,6 +4,26 @@ var fs = require("fs");
 
 app.set("port", (process.env.PORT || 5000));
 
+
+app.get("/images/header_back_image_b.jpg", function(req, res){
+      fs.readFile(
+        "./images/header_back_image_b.jpg",
+        function (err, data) {
+            if (err) {
+                // とりあえずconsole.logでログを残す
+                // エラーが出たらnodeは死ぬのでendする
+                console.log(err);
+                res.writeHead(500);
+                res.end("Server error : " + err);
+            }
+            // HTTPレスポンスヘッダを作成・送信(200:OK,500:ServerError,404:NotFound)
+            res.writeHead(200, {"Content-Type": "text/css; charset=UTF-8"});
+            res.end(data);
+        }
+    );
+});
+
+
 app.get("/styles/main.css", function(req, res){
       fs.readFile(
         "./styles/main.css",
@@ -96,6 +116,7 @@ app.get("/", function(req, res){
         }
     );
 });
+
 
 app.use(function(req, res) {
     res.send("404: Page not Found", 404);
