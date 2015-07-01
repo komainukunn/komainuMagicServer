@@ -5,7 +5,7 @@ var fs = require("fs");
 app.set("port", (process.env.PORT || 5000));
 
 /*
- * ルーティング
+ *   ルーティング
  */
 
 //ヘッターの画像ルーティング
@@ -101,6 +101,20 @@ app.get("/", function(req, res){
             res.end(data);
         }
     );
+});
+
+var testJson = {
+    "Title" : "komainukunn",
+    "Text" : "<p>Nodeのapiを叩いて記事のデータを取りに行く感じ</p><p>エスケープ処理が不安</p>",
+    "category" : { 
+        "1" : "category01",
+        "2" : "category02"
+    },
+    "data" : "2015-07-01W09:33:00+09:00"
+};
+
+app.get("/api", function(req, res){
+    res.send(testJson);
 });
 
 
