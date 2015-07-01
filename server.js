@@ -104,13 +104,13 @@ app.get("/", function(req, res){
 });
 
 var testJson = {
-    "Title" : "komainukunn",
-    "Text" : "<p>Nodeのapiを叩いて記事のデータを取りに行く感じ</p><p>エスケープ処理が不安</p>",
+    "title" : "komainukunn",
+    "text" : "<p>Nodeのapiを叩いて記事のデータを取りに行く感じ</p><p>エスケープ処理が不安</p>",
     "category" : { 
         "1" : "category01",
         "2" : "category02"
     },
-    "data" : "2015-07-01W09:33:00+09:00"
+    "date" : "2015-07-01W09:33:00+09:00"
 };
 
 app.get("/api", function(req, res){
