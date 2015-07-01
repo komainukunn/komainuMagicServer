@@ -105,11 +105,8 @@ app.get("/", function(req, res){
 
 var testJson = {
     "title" : "komainukunn",
-    "text" : "<p>Nodeのapiを叩いて記事のデータを取りに行く感じ</p><p>エスケープ処理が不安</p>",
-    "category" : { 
-        "1" : "category01",
-        "2" : "category02"
-    },
+    "text" : "<h1>Nodeのapiを叩いて記事のデータを取りに行く感じ</h1><p>エスケープ処理が不安</p>",
+    "categories":["category01","category02"],
     "date" : "2015-07-01W09:33:00+09:00"
 };
 
