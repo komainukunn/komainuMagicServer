@@ -4,10 +4,6 @@ var fs = require("fs");
 
 app.set("port", (process.env.PORT || 5000));
 
-/*
- *   ルーティング
- */
-
 //ヘッターの画像ルーティング
 app.get("/images/header_back_image_b.jpg", function(req, res){
       fs.readFile(
@@ -103,21 +99,43 @@ app.get("/", function(req, res){
     );
 });
 
-var testJson = {
-    "title" : "komainukunn",
-    "text" : "<h1>Nodeのapiを叩いて記事のデータを取りに行く感じ</h1><p>エスケープ処理が不安</p>",
-    "categories":["category01","category02"],
-    "date" : "2015-07-01W09:33:00+09:00"
-};
 
-app.get("/api", function(req, res){
-    res.send(testJson);
+//Mongo部分
+var mongoose = require("mongoose");
+var db = require("./model/database");
+
+var Article = mongoose.model("Articles");
+var Category = mongoose.model("Categories");
+var Article_Category = mongoose.model("ArticlesCategories");
+
+app.get("/api/new-article", function(req, res){
+   
+    var catItem = [];
+    //最新の記事を取り出すクエリ
+    Article.find({},{},{sort:{date: -1},limit:1}, function(err, art){
+        Article_Category.find({ "article_id":art[0]._id }, function(err, docs) {
+            for (var i=0, size=docs.length; i<size; ++i) {
+                Category.find({"_id":docs[i].category_id},function(err, cats) {
+                    catItem.push(cats[0].categoryName);
+                    if(i >= size-1){
+                        var sendArticle = { 
+                            "title" : art[0].title,
+                            "text" : art[0].text,
+                            "categories":catItem,
+                            "date" : art[0].date
+                        } 
+                        res.send(sendArticle);
+                    }
+                }) 
+            }
+        });
+    });
 });
-
 
 app.use(function(req, res) {
     res.send("404: Page not Found", 404);
 });
+
 
 app.listen(app.get("port"), function() {
   console.log("Node app is running at localhost:" + app.get("port"));
