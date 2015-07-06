@@ -19,7 +19,6 @@
         <nav class="navbar navbar-inverse navibar-fixed-top">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Top</a>
-            <a class="navbar-brand" href="/logout">Logout</a>
         </div> 
         </nav>
         <header class="jumbotron">
@@ -40,40 +39,13 @@
         </header> <!-- /.header -->
 
         <div class="container main-content">
-            <div class="row">
-                <div id="brogContext" class="col-md-9 content-area">
-                    <h2>ここに記事見出しタイトルを設置</h2>
-                    <p>日付け : 2015/06/27</p>
-                    <p><a>#カテゴリA</a> <a>#カテゴリB</a> <a>#カテゴリC</a></p>
-                    <br />
-                    <p>本文</p> 
-                    <p>この content-area部分をreact.jsで書き換えたい</p>
-                </div><!--/.content-area-->
-
-                <div class="col-md-3 sidebar">
-                    <aside>
-                    <h4>カテゴリへのリンク</h4>
-                    <ul class="list-unstyled">
-                        <li><a href="#">reactjsで書き換えます</a></li>
-                        <li><a href="#">reactjsで書き換えます</a></li>
-                        <li><a href="#">reactjsで書き換えます</a></li>
-                        <li><a href="#">reactjsで書き換えます</a></li>
-                        <li><a href="#">reactjsで書き換えます</a></li>
-                    </ul>
-                    </aside>
-                    <aside>
-                    <h4>カレンダー</h4>
-                        <ul class="list-unstyled">
-                        <li><a href="#">reactjsで書き換えます</a></li>
-                        <li><a href="#">reactjsで書き換えます</a></li>
-                        <li><a href="#">reactjsで書き換えます</a></li>
-                        <li><a href="#">reactjsで書き換えます</a></li>
-                        <li><a href="#">reactjsで書き換えます</a></li>
-                    </ul>
-                    </aside>
-                </div><!--/.sidebar-->
-            </div>
-        </div><!--/.main-content-->        </div><!--/.main-content-->
+            <h2>ログイン</h2>
+            <form action="/login" method="GET">
+                <input type="text" name="id" placeholder="ID"/>
+                <input type="password" name="password" placeholder="PassWord"/>
+                <input type="submit">ログイン</button>
+            </form>
+        </div><!--/.main-content-->
         <footer class="container-fluid">
         <small><p>komainukunn 2015</a></small>
         </footer>

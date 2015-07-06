@@ -42,7 +42,7 @@ article_category.save(function(err) {
 
 var account = new Account();
 account.id = "koomainu";
-account.password = "koomainukunn";
+account.password = "a";
 account.save(function(err) {
           if (err) { console.log(err); }
 });

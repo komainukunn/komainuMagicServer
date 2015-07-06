@@ -10,12 +10,12 @@ var ArticleTable = new Schema({
 });
 
 var CategoryTable = new Schema({
-    categoryName:{type: String, required: true}
+    categoryName:{type: String, required: true, unique: true}
 });
 
 var ArticleCategoryTable = new Schema({
-    article_id:{type: Object, required:true},
-    category_id:{type: Object, required:true}
+    article_id:{type: String, required:true},
+    category_id:{type: String, required:true}
 });
 
 var AccountTable = new Schema({
