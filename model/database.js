@@ -1,37 +1,65 @@
-var mongoose = require("mongoose");
+module.exports = function(mongoose){
+    //テーブルのスキーマ
+    var Schema   = mongoose.Schema;
 
-//テーブル作成
-var Schema   = mongoose.Schema;
+    /*  Articleテーブル
+     *
+     *  _id   : 主キー
+     *  title : タイトル
+     *  text  : 記事の中身
+     *  data  : 日付け
+     */
+    
+    var ArticleTable = new Schema({
+        title:{type: String, required: true},
+        text:{type: String, required: true},
+        date:{type: Date, default: Date.now}
+    });
 
-var ArticleTable = new Schema({
-  title:{type: String, required: true},
-  text:{type: String, required: true},
-  date:{type: Date, default: Date.now}
-});
 
-var CategoryTable = new Schema({
-    categoryName:{type: String, required: true, unique: true}
-});
+    /*  Categoryテーブル
+     *
+     *  _id          : 主キー 
+     *  CategoryName : カテゴリーの名前
+     */
 
-var ArticleCategoryTable = new Schema({
-    article_id:{type: String, required:true},
-    category_id:{type: String, required:true}
-});
+    var CategoryTable = new Schema({
+        categoryName:{type: String, required: true, unique: true}
+    });
 
-var AccountTable = new Schema({
-    id:{type: String, required:true ,unique: true},
-    password:{type: String,required:true}
-});
 
-mongoose.model("Articles",ArticleTable);
-mongoose.model("Categories",CategoryTable);
-mongoose.model("ArticlesCategories",ArticleCategoryTable);
-mongoose.model("Accounts",AccountTable);
+    /* ArticleCategoryテーブル
+     *
+     * _id         : 主キー
+     * article_id  : 記事のid
+     * category_id : カテゴリーのid
+     */
 
-//接続
-mongoose.connect("mongodb://localhost/komainukunndb");
+    var ArticleCategoryTable = new Schema({
+        article_id:{type: String, required:true},
+        category_id:{type: String, required:true}
+    });
 
-var Article = mongoose.model("Articles");
-var Category = mongoose.model("Categories");
-var Article_Category = mongoose.model("ArticlesCategories");
-var Account = mongoose.model("Accounts");
+
+    /* Accountテーブル
+     *
+     * _id      : 主キー
+     * id       : ユーザーid
+     * password : パスワード
+     *
+     */
+
+    var AccountTable = new Schema({
+        id:{type: String, required:true ,unique: true},
+        password:{type: String,required:true}
+    });
+
+    //テーブルを作成
+    mongoose.model("Articles",ArticleTable);
+    mongoose.model("Categories",CategoryTable);
+    mongoose.model("ArticlesCategories",ArticleCategoryTable);
+    mongoose.model("Accounts",AccountTable);
+
+    //接続
+    mongoose.connect("mongodb://localhost/komainukunndb");
+}
