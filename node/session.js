@@ -11,13 +11,13 @@ module.exports = function(app,fs,mongoose,color){
         secret: "secret",
         store: new MongoStore({
             db: "session",
-            host: "localhost",
+            host: process.env.MONGOLAB_URI || "localhost",
             clear_interval: 60 * 60 
         }),
         cookie: { 
             httpOnly: false,
             maxAge: 60 * 60 * 1000
-        }
+        },
         proxy: true,
         resave: true,
         saveUninitialized: true
