@@ -11,16 +11,13 @@ module.exports = function(app,fs,mongoose,color){
         secret: "secret",
         store: new MongoStore({
             db: "heroku_j703hsh4",
-            host: "komainukunn.herokuapp.com",
+            host: " mongodb://heroku_j703hsh4.heroku_j703hsh4:@ds047682.mongolab.com:47682",
             clear_interval: 60 * 60 
         }),
         cookie: { 
             httpOnly: false,
             maxAge: 60 * 60 * 1000
-        },
-        proxy: true,
-        resave: true,
-        saveUninitialized: true
+        }
     }));
 
     //ログインページにリダイレクトさせる
