@@ -9,12 +9,8 @@ module.exports = function(app,fs,mongoose,color){
     //セッションの設定
     app.use(session({
         secret: "secret",
-        store: new MongoStore({
-            db: "heroku_j703hsh4",
-            host: "ds047682.mongolab.com",
-            clear_interval: 60 * 60, 
-            username:"heroku_j703hsh4",
-            password:"o6a09iaruaanabhqck6ug2tmen"
+        store: new MongoStore({ url: process.env.MONGOLAB_URI, 
+            clear_interval: 60 * 60 
         }),
         cookie: { 
             httpOnly: false,
