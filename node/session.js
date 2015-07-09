@@ -10,17 +10,14 @@ module.exports = function(app,fs,mongoose,color){
     app.use(session({
         secret: "secret",
         store: new MongoStore({
-            db: "session",
-            host: process.env.MONGOLAB_URI || "localhost",
+            db: "heroku_j703hsh4",
+            host: "komainukunn.herokuapp.com",
             clear_interval: 60 * 60 
         }),
         cookie: { 
             httpOnly: false,
             maxAge: 60 * 60 * 1000
-        },
-        proxy: true,
-        resave: true,
-        saveUninitialized: true
+        }
     }));
 
     //ログインページにリダイレクトさせる
