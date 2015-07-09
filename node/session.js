@@ -6,6 +6,7 @@ module.exports = function(app,fs,mongoose,color){
     var session = require("express-session");
     var MongoStore = require("connect-mongo")(session);
 
+    console.log("aaaaaa");
     //セッションの設定
     app.use(session({
         secret: "secret",
@@ -19,6 +20,7 @@ module.exports = function(app,fs,mongoose,color){
             maxAge: 60 * 60 * 1000
         }
     }));
+    console.log("cccccc");
 
     //ログインページにリダイレクトさせる
     var loginCheck = function(req, res, next) {
