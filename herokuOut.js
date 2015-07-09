@@ -2,7 +2,7 @@ console.log("process.env.MONGOLAB_URI = " +process.env.MONGOLAB_URI);
 function createDBSettings(mongoLabURI) {
     var dbSettings = {},
         regexp = /^mongodb:\/\/(\w+):(\w+)@(\w+):(\w+)\/(\w+)$/,
-        matches = regexp.match(mongoLabURI);
+        matches = mongoLabURI.match(regexp);
 
     dbSettings.dbname = matches[5];
     dbSettings.host = matches[3];
