@@ -1,5 +1,6 @@
 module.exports = function(mongoose){
     //テーブルのスキーマ
+    var mongoURL = process.env.MONGOLAB_URI || "mongodb://localhost/komainukunndb";
     var Schema   = mongoose.Schema;
 
     /*  Articleテーブル
@@ -15,7 +16,6 @@ module.exports = function(mongoose){
         text:{type: String, required: true},
         date:{type: Date, default: Date.now}
     });
-
 
     /*  Categoryテーブル
      *
@@ -61,5 +61,5 @@ module.exports = function(mongoose){
     mongoose.model("Accounts",AccountTable);
 
     //接続
-    mongoose.connect("mongodb://localhost/komainukunndb");
+    mongoose.connect(mongoURL);
 }

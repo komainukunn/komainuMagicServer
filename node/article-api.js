@@ -104,7 +104,6 @@ module.exports = function(app,mongoose,color){
 
             //記事のidから対応してるカテゴリーのidを検索
             Article_Category.find({ article_id:art[0]._id }, function(err, docs) {
-                
                 if(err){
                     sendJson = { result : "error",message : "記事に関連したカテゴリーを検索できませんでした"};
                     res.send(sendJson);
@@ -128,32 +127,31 @@ module.exports = function(app,mongoose,color){
                 }
                 //カテゴリーの数 for文を回す
                 for (var i=0, size=docs.length; i<size; ++i) {
+
                     //カテゴリーの名前を検索するクエリ
                     Category.find({"_id":docs[i].category_id},function(err, cats) {
-
                         if(err){
-                            sendJson = { result : "error",message : "カテゴリーの名前を検索できませんでした"};
+                            
                             res.send(sendJson);
                             console.log(sendJson);
                             console.log(color.red + "/account/api/show error - Category.find" + color.reset);
                             console.log(err+"\n");
-                            return ;
-                        }
-                        if(cats == []){
-                            sendJson = { result : "error",message : "カテゴリーの名前を検索できませんでした"};
-                            res.send(sendJson);
-                            console.log(sendJson);
-                            console.log(color.red + "/account/api/show error - Category.find" + color.reset);
-                            console.log(err+"\n");
-                            return ;
-                        }
 
+                            return ;
+                        }
+                        if(cats == ""){
+                            sendJson = { result : "error",message : "カテゴリーの名前を検索できませんでした"};
+                            res.send(sendJson);
+                            console.log(sendJson);
+                            console.log(color.red + "/account/api/show error - Category.find" + color.reset);
+                            return ;
+                        }
                         catItem.push(cats[0].categoryName);
                         cnt++;
                         if(cnt >= size){
                             sendJson = {
                                 result:"success",
-                                _id : art[0]._id,
+                                _id : art[0]._id, // idつかなわいかも
                                 title : art[0].title,
                                 text : art[0].text,
                                 categories:catItem,
@@ -176,9 +174,18 @@ module.exports = function(app,mongoose,color){
         var sendJson = [];
         var title = req.body.title ? req.body.title : "",              //タイトル
             text = req.body.text ? req.body.text : "",                //記事
-            categories = req.body.setCategories ? req.body.setCategories : ""; //カテゴリー
+            categories = req.body.categories ? req.body.categories : ""; //カテゴリー
 
         console.log("title --> " + title + "\ntext --> "+text+"\ncategories --> "+categories);
+
+        //空欄があったらエラーを返す
+        if(title=="" || text==""){
+                sendJson = {result:"error",message:"何か入力してください"};
+                res.send(sendJson);
+                console.log(sendJson);
+                console.log(color.red + "/account/api/create error - title==\"\" || text==\"\"" + color.reset);
+                return;
+        }
 
         //記事を保存
         var article = new Article();
@@ -195,48 +202,44 @@ module.exports = function(app,mongoose,color){
             }
         });
 
+        //非同期のため、ここで完了をおくってしまう
+        sendJson = {result:"success",message:"完了しました"};
+        res.send(sendJson);
+        console.log(sendJson);
+
         var cnt=0;  //同期のためのcnt
         if(categories.length <= 0){
-            sendJson = {result:"success",message:"完了しました"};
-            res.send(sendJson);
-            console.log(sendJson);
             console.log(color.green + "--- /account/api/create res.send succsess!" + color.reset);
             return;
         }
         for(var i=0;i<categories.length;i++){
             //紐つけするカテゴリーを検索してなかったら登録
             Category.find({categoryName:categories[i]},function(err, cat){
-                cnt++;
                 //あった場合
                 if(cat!=""){
                     var article_category = new Article_Category();
                     article_category.article_id  = article._id;
                     article_category.category_id = cat[0]._id;
                     article_category.save(function(err) {
+                        cnt++;
                         if (err) { 
-                            sendJson = {result:"error",message:"記事とカテゴリーの関連を保存できませんでした"};
-                            res.send(sendJson);
-                            console.log(sendJson);
                             console.log(color.red + "/account/api/create error - article_category.save" + color.reset);
                             console.log(err+"\n");
                             return;
                         }
                         if(cnt>=cat.length){
-                            sendJson = {result:"success",message:"完了しました"};
-                            console.log(sendJson);
                             console.log(color.green + "--- /account/api/create res.send succsess!" + color.reset);
                             return;
                         }
                     });
                 //なかった場合
                 }else{
+                    console.log(categoryName);
                     var category = new Category();
                     category.categoryName = categories[cnt];
                     category.save(function(err) {
                         if (err) { 
-                            sendJson = {result:"error",message:"カテゴリーを保存できませんでした"};
-                            res.send(sendJson);
-                            console.log(sendJson);
+                            console.log(err+"\n");
                             console.log(color.red + "/account/api/create error - category.save" + color.reset);
                             return;
                         }
@@ -244,19 +247,12 @@ module.exports = function(app,mongoose,color){
                         article_category.article_id  = article._id;
                         article_category.category_id = category._id;
                         article_category.save(function(err) {
+                            cnt++;
                             if (err) { 
-                                sendJson = {result:"error",message:"記事とカテゴリーの関連を保存できませんでした"};
-                                res.send(sendJson);
-                                console.log(sendJson);
                                 console.log(color.red + "/account/api/create error - article_category.save" + color.reset);
-                                return;
                             }
                             if(cnt>=cat.length){
-                                sendJson = {result:"success",message:"完了しました"};
-                                res.send(sendJson);
-                                console.log(sendJson);
                                 console.log(color.green + "--- /account/api/create res.send succsess!" + color.reset);
-                                return;
                             }
                         });
                     });
@@ -274,13 +270,17 @@ module.exports = function(app,mongoose,color){
             categories = req.body.categories ? req.body.categories :[];
 
         console.log("art_id --> "+art_id+"\ntitle --> " + title + "\ntext --> "+text+"\ncategories --> "+categories);
-        if(categories==""){
-            sendJson = {result:"success",message:"完了しました"};
+
+        //空欄があったらエラーを返す
+        if(title=="" || text==""){
+            sendJson = {result:"error",message:"何か入力してください"};
             res.send(sendJson);
             console.log(sendJson);
-            console.log(color.green + "--- /account/api/update res.send succsess!" + color.reset);
+            console.log(color.red + "/account/api/create error - title==\"\" || text==\"\"" + color.reset);
             return;
         }
+
+
         //記事の更新
         Article.update({_id:art_id},{title:title,text:text},function(err){
             if (err) { 
@@ -303,6 +303,20 @@ module.exports = function(app,mongoose,color){
                     return;
                 }
 
+                //カテゴリーがなかったら終了
+                if(categories==""){
+                    sendJson = {result:"success",message:"完了しました"};
+                    res.send(sendJson);
+                    console.log(sendJson);
+                    console.log(color.green + "--- /account/api/update res.send succsess!" + color.reset);
+                    return;
+                }
+
+                //ここで一回完了を送る
+                sendJson = {result:"success",message:"完了しました"};
+                res.send(sendJson);
+                console.log(sendJson);
+
                 var cnt=0; //同期のためのカウンター
                 for(var i=0;i<categories.length;i++){
                     //同じ名前のカテゴリーがないか検索する
@@ -314,9 +328,6 @@ module.exports = function(app,mongoose,color){
                             article_category.category_id = cat[0]._id;
                             article_category.save(function(err) {
                                 if (err) {
-                                    sendJson = {result:"error",message:"既存のカテゴリーを検索できませんでした"};
-                                    res.send(sendJson);
-                                    console.log(sendJson);
                                     console.log(color.red + "/account/api/update error - category.find" + color.reset);
                                     console.log(err+"\n");
                                     return;
@@ -326,11 +337,9 @@ module.exports = function(app,mongoose,color){
                         }else{
                             var category = new Category();
                             category.categoryName = categories[cnt];
+                            console.log(categoies[cnt]);
                             category.save(function(err) {
                                 if (err) { 
-                                    sendJson = {result:"error",message:"カテゴリーを登録できませんでした"};
-                                    res.send(sendJson);
-                                    console.log(sendJson);
                                     console.log(color.red + "/account/api/update error - category.save" + color.reset);
                                     console.log(err+"\n");
                                     return;
@@ -341,20 +350,13 @@ module.exports = function(app,mongoose,color){
                             article_category.category_id = category._id;
                             article_category.save(function(err) {
                                 if (err) {
-                                    sendJson = {result:"error",message:"カテゴリーの関連を登録できませんでした"};
-                                    res.send(sendJson);
-                                    console.log(sendJson);
                                     console.log(color.red + "/account/api/update error - article_category.save" + color.reset);
                                     console.log(err+"\n");
                                     return;
                                 }
                             });
                         }
-                        cnt++;
                         if(cnt >= categories.length){
-                            sendJson = {result:"success",message:"完了しました"};
-                            res.send(sendJson);
-                            console.log(sendJson);
                             console.log(color.green + "--- /account/api/update res.send succsess!" + color.reset);
                             return;
                         }

@@ -21,7 +21,7 @@ module.exports = function(app,mongoose,color){
     app.get("/account/category/api/",apiLoginCheck,function(req,res){
         console.log(color.yellow + "--- /account/category/api/ start" + color.reset);
         var sendJson =[];
-        var categoryNames = [];//受け取ったカテゴリーを入れる
+        var categoryNames = [];//カテゴリーを入れる
 
         //カテゴリーを検索
         Category.find({}, function(err, cats){
@@ -42,12 +42,14 @@ module.exports = function(app,mongoose,color){
                 categoryNames:categoryNames
             };
             res.send(sendJson);
+            console.log(sendJson);
             console.log(color.green + "--- /account/api/category/api/ res.send succsess!" + color.reset);
             return;
         })
     });
 
     //create
+    //もしかしたらカテゴリー一覧を返す必要がないかも
     app.get("/account/category/api/create",apiLoginCheck,function(req,res){
         console.log(color.yellow + "--- /account/api/category/api/create start" + color.reset);
         var sendJson =[];
@@ -125,7 +127,7 @@ module.exports = function(app,mongoose,color){
     
         //削除するカテゴリーが登録されているか見る
         Category.find({categoryName:catName},function(err,data){
-            if(data[0]==""){
+            if(data==""){
                 sendJson = {result:"error",message:"登録されていないカテゴリーです"};
                 res.send(sendJson);
                 console.log(color.red + "/account/category/api/delete error - req.query.categoryName" + color.reset);
