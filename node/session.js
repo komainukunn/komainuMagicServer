@@ -17,7 +17,10 @@ module.exports = function(app,fs,mongoose,color){
         cookie: { 
             httpOnly: false,
             maxAge: 60 * 60 * 1000
-        }
+        },
+        proxy: true,
+        resave: true,
+        saveUninitialized: true
     }));
 
     //ログインページにリダイレクトさせる
