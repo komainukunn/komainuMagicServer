@@ -6,30 +6,15 @@ module.exports = function(app,fs,mongoose,color){
     var session = require("express-session");
     var MongoStore = require("connect-mongo")(session);
 
-    //herokuのDB接続用
-    function createDBSettings(mongoLabURI) {
-        var dbSettings = {},
-            regexp = /^mongodb:\/\/(\w+):(\w+)@(\w+):(\w+)\/(\w+)$/,
-            matches = regexp.match(mongoLabURI);
-
-        dbSettings.dbname = matches[5];
-        dbSettings.host = matches[3];
-        dbSettings.port = matches[4];
-        dbSettings.username = matches[1];
-        dbSettings.password = matches[2];
-
-        return dbSettings;
-    }
-
-    herokuDB = createDBSettings(process.env.MONGOLAB_URI);
-
     //セッションの設定
     app.use(session({
         secret: "secret",
         store: new MongoStore({
             db: "heroku_j703hsh4",
-            host: " mongodb://heroku_j703hsh4.heroku_j703hsh4:@ds047682.mongolab.com:47682",
+            host: "ds047682.mongolab.com",
             clear_interval: 60 * 60 
+            username:"heroku_j703hsh4",
+            password:"o6a09iaruaanabhqck6ug2tmen"
         }),
         cookie: { 
             httpOnly: false,

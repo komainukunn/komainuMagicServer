@@ -49,17 +49,3 @@ app.listen(app.get("port"), function() {
 
 
 
-//herokuのDB接続用
-function createDBSettings(mongoLabURI) {
-  var dbSettings = {},
-      regexp = /^mongodb:\/\/(\w+):(\w+)@(\w+):(\w+)\/(\w+)$/,
-      matches = regexp.match(mongoLabURI);
-
-  dbSettings.dbname = matches[5];
-  dbSettings.host = matches[3];
-  dbSettings.port = matches[4];
-  dbSettings.username = matches[1];
-  dbSettings.password = matches[2];
-
-  return dbSettings;
-}
