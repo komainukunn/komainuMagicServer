@@ -11,7 +11,7 @@ module.exports = function(app,fs,mongoose,color){
         secret: "secret",
         store: new MongoStore({
             db: "session",
-            host: process.env.MONGOLAB_URI || "localhost",
+            host: "localhost",
             clear_interval: 60 * 60 
         }),
         cookie: { 
