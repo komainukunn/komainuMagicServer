@@ -1,4 +1,7 @@
 //モジュールの読み込み
+
+console.log("test");
+
 var app = require("express")();
 var http = require("http").Server(app);
 var fs = require("fs");
@@ -22,7 +25,6 @@ var color = {
     reset   : "\u001b[0m" 
 }
 
-console.log("test");
 //テータベースの設定
 require("./model/database")(mongoose);
 
