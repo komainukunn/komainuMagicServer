@@ -49,7 +49,7 @@ article_category.save(function(err) {
 
 var account = new Account();
 account.id = "koomainu";
-account.password = "a";
+account.password = "komainuMSY038";
 account.save(function(err) {
     if (err) { console.log(err);}
     seedExitJug();
