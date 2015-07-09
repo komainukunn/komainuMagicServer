@@ -12,7 +12,7 @@ module.exports = function(app,fs,mongoose,color){
         store: new MongoStore({
             db: "heroku_j703hsh4",
             host: "ds047682.mongolab.com",
-            clear_interval: 60 * 60 
+            clear_interval: 60 * 60, 
             username:"heroku_j703hsh4",
             password:"o6a09iaruaanabhqck6ug2tmen"
         }),
