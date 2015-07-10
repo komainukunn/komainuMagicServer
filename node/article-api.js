@@ -393,20 +393,48 @@ module.exports = function(app,mongoose,color){
                 console.log(err+"\n");
                 return;
             }
-            Article.remove({ _id: art_id }, function(err) {
+            if(data == ""){
+                console.log("test");
+                Article.remove({ _id: art_id }, function(err) {
+                    if (err) {
+                        sendJson = {result:"error",message:"記事を削除できませんでした"};
+                        res.send(sendJson);
+                        console.log(sendJson);
+                        console.log(color.red + "/account/api/delete error - article.remove" + color.reset);
+                        console.log(err+"\n");
+                        return;
+                    }
+                    sendJson = {result:"success",message:"完了しました"};
+                    res.send(sendJson);
+                    console.log(sendJson);
+                    console.log(color.green + "--- /account/api/delete res.send succsess!" + color.reset);
+                });
+                return;
+            }
+            Article_Category.remove({ article_id: art_id }, function(err) {
                 if (err) {
-                    sendJson = {result:"error",message:"記事を削除できませんでした"};
+                    sendJson = {result:"error",message:"記事とカテゴリーの関連を削除できませんでした"};
                     res.send(sendJson);
                     console.log(sendJson);
                     console.log(color.red + "/account/api/delete error - article_category.remove" + color.reset);
                     console.log(err+"\n");
                     return;
                 }
-                sendJson = {result:"success",message:"完了しました"};
-                res.send(sendJson);
-                console.log(sendJson);
-                console.log(color.green + "--- /account/api/delete res.send succsess!" + color.reset);
-                return;
+                Article.remove({ _id: art_id }, function(err) {
+                    if (err) {
+                        sendJson = {result:"error",message:"記事を削除できませんでした"};
+                        res.send(sendJson);
+                        console.log(sendJson);
+                        console.log(color.red + "/account/api/delete error - article.remove" + color.reset);
+                        console.log(err+"\n");
+                        return;
+                    }
+                    sendJson = {result:"success",message:"完了しました"};
+                    res.send(sendJson);
+                    console.log(sendJson);
+                    console.log(color.green + "--- /account/api/delete res.send succsess!" + color.reset);
+                    return;
+                });
             });
         });
     });
