@@ -9,7 +9,7 @@ module.exports = function(app,fs,mongoose,color){
     //セッションの設定
     app.use(session({
         secret: "secret",
-        store: new MongoStore({ url: process.env.MONGOLAB_URI, 
+        store: new MongoStore({ url: process.env.MONGOLAB_URI || "mongodb://localhost/komainukunndb", 
             clear_interval: 60 * 60 
         }),
         cookie: { 
