@@ -9,13 +9,13 @@
 6 info start dist@0.0.0
 7 verbose unsafe-perm in lifecycle true
 8 info dist@0.0.0 Failed to exec start script
-9 error dist@0.0.0 start: `node herokuOut.js`
+9 error dist@0.0.0 start: `node server.js`
 9 error Exit status 8
 10 error Failed at the dist@0.0.0 start script.
 10 error This is most likely a problem with the dist package,
 10 error not with npm itself.
 10 error Tell the author that this fails on your system:
-10 error     node herokuOut.js
+10 error     node server.js
 10 error You can get their info via:
 10 error     npm owner ls dist
 10 error There is likely additional logging output above.
