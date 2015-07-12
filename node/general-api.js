@@ -103,7 +103,7 @@ module.exports = function(app,mongoose,color){
 
     //カテゴリー一覧をとってくる
     app.get("/api/categories", function(req, res){
-        console.log(color.yellow + "--- /api/categories" + color.reset);
+        console.log(color.yellow + "--- /api/categories start" + color.reset);
         var categoryNames = [];//受け取ったカテゴリーを入れる
 
         var cnt = 0; //同期用カウンター
@@ -244,7 +244,6 @@ module.exports = function(app,mongoose,color){
                 }
                 for(var i=0, size=docs.length;i<size;i++){
                     Article.find({_id : docs[i].article_id},{},{sort:{date: -1}},function(err,arts){
-                        
                         
                         art_ids.push(arts[0]._id);
                         artTitles.push(arts[0].title);
