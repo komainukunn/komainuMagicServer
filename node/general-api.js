@@ -43,6 +43,7 @@ module.exports = function(app,mongoose,color){
                 if(docs==""){
                     sendJson = { 
                         result : "success",
+                        _id : art[0]._id,
                         title : art[0].title,
                         text : art[0].text,
                         date : art[0].date
@@ -85,6 +86,7 @@ module.exports = function(app,mongoose,color){
                         if(cnt >= size){
                             sendJson = {
                                 result: "success",
+                                _id : art[0]._id,
                                 title : art[0].title,
                                 text : art[0].text,
                                 categories:catItem,
